@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AmazonApp.Views.InventoryManagementView"
+             Title="InventoryManagementView">
+    <VerticalStackLayout>
+        <ListView ItemsSource="{Binding Items}" 
+                  SelectedItem="{Binding Selecteditem}"
+            >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="{Binding Name}" />
+                            <Label Grid.Column="1" Text="{Binding Description}" />
+                            <Label Grid.Column="2" Text="{Binding Price}" />
+                            <Label Grid.Column="3" Text="{Binding  Id}" />
+                            <Label Grid.Column="4" Text="{Binding Quantity}" />
+                            <Button Grid.Column="5" Text="Edit"></Button>
+                            <Button Grid.Column="6" Text="Delete"></Button>
+                        </Grid> 
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button
+            Text="Edit"
+            Clicked="EditClicked" />
+        <Button
+            Text="Go Back"
+            Clicked="BackClicked" />
+    </VerticalStackLayout>
+</ContentPage> 
