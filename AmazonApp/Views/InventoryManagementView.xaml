@@ -25,7 +25,11 @@
                             <Label Grid.Column="2" Text="{Binding Price}" />
                             <Label Grid.Column="3" Text="{Binding  Id}" />
                             <Label Grid.Column="4" Text="{Binding Quantity}" />
-                            <Button Grid.Column="5" Text="Edit"></Button>
+                            <Button Grid.Column="5" 
+                                Text="Edit"
+                                Command="{Binding Path=EditCommand}"
+                                CommandParameter="{Binding}"
+                            />
                             <Button Grid.Column="6" Text="Delete"></Button>
                         </Grid> 
                     </ViewCell>
