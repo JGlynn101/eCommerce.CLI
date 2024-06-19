@@ -13,7 +13,7 @@ namespace AmazonApp.ViewModels
         public ICommand? EditCommand { get; private set; }
 
         public Item? Item;
-          
+         
         public string? Name
         {
             get
