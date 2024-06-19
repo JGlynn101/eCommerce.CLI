@@ -11,21 +11,21 @@ namespace AmazonApp.ViewModels
 {
     public class InventoryManagementViewModel
     {
-        public List<Amazon.Library.Models.Item> Items
+        public List<ItemViewModel> Items
         {
             get
             {
-                return InventoryServiceProxy.Current.Items.ToList() ?? new List<Item>();
+                return InventoryServiceProxy.Current.Items.Select(i => new ItemViewModel(i)).ToList() ?? new List<ItemViewModel>();
             } 
                 
         }
-        public Amazon.Library.Models.Item Selecteditem { get; set; } 
+        public ItemViewModel Selecteditem { get; set; } 
         public void updateItem()
         {
-            InventoryServiceProxy.Current.AddorUpdate(Selecteditem);
+            if (Selecteditem.Item == null) return;
+            InventoryServiceProxy.Current.AddorUpdate(Selecteditem.Item);
         }
         public InventoryManagementViewModel() { 
         } 
     }
 }
- 
