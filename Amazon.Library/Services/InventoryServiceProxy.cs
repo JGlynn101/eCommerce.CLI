@@ -35,7 +35,7 @@ namespace Amazon.Library.Services
                 return items.Select(i => i.Id).Max() + 1;
             }
         }
-        public Item? AddorUpdate(Item i)
+        public Item? AddorUpdate(Item? i)
         {
             if (items == null)
             {
@@ -58,9 +58,9 @@ namespace Amazon.Library.Services
         private InventoryServiceProxy()
         {
             items = new List<Item>() {
-                new Item { Name = "Item 1", Price = 10.0m },
-            new Item { Name = "Item 2", Price = 20.0m },
-            new Item { Name = "Item 3", Price = 30.0m }
+                new Item { Id = 0, Name = "Item 1", Price = 10.0m },
+            new Item { Id = 1, Name = "Item 2", Price = 20.0m },
+            new Item { Id = 2, Name = "Item 3", Price = 30.0m }
             };
         }
         public static InventoryServiceProxy Current

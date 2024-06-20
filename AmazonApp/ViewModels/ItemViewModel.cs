@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Amazon.Library.Models;
+using Amazon.Library.Services;
 
 namespace AmazonApp.ViewModels
 {
@@ -32,6 +33,10 @@ namespace AmazonApp.ViewModels
         {
             if(p == null) return;
            // Shell.Current.GoToAsync($"//ProjectDetail?clientId={i.Model.ClientId}&projectId={i?.Model?.Id ?? 0}");
+        }
+        public void Add()
+        {
+            InventoryServiceProxy.Current.AddorUpdate(Item);
         }
         public void SetupCommands()
         {

@@ -23,4 +23,9 @@
         ContentTemplate="{DataTemplate views:ShoppingCartManagementView}"
         Route="ShoppingCart" />
 
+    <ShellContent
+        Title="Item"
+        ContentTemplate="{DataTemplate views:ItemView}"
+        Route="Item" />
+
 </Shell>
