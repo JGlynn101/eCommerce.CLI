@@ -2,7 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AmazonApp.Views.InventoryManagementView"
-             Title="InventoryManagementView">
+             Title="InventoryManagementView"
+             NavigatedTo="ContentPage_NavigatedTo"
+             NavigatedFrom="ContentPage_NavigatedFrom"
+             >
     <VerticalStackLayout>
         <ListView ItemsSource="{Binding Items}" 
                   SelectedItem="{Binding Selecteditem}"
@@ -36,6 +39,9 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Button
+            Text="Add"
+            Clicked="AddClicked" />    
         <Button
             Text="Edit"
             Clicked="EditClicked" />
