@@ -31,8 +31,12 @@ namespace AmazonApp.ViewModels
         }
         private void ExecuteEdit(ItemViewModel? p)
         {
-            if(p == null) return;
-           // Shell.Current.GoToAsync($"//ProjectDetail?clientId={i.Model.ClientId}&projectId={i?.Model?.Id ?? 0}");
+            if (p?.Item == null)
+            {
+                return;
+            }
+            Shell.Current.GoToAsync($"//Item?itemId={p.Item.Id}");
+
         }
         public void Add()
         {
@@ -47,8 +51,15 @@ namespace AmazonApp.ViewModels
         {
             Item = new Item();
             SetupCommands();
-        }   
-
+        }
+        public ItemViewModel(int id)
+        {
+            Item = InventoryServiceProxy.Current.Items.FirstOrDefault(i=> i.Id == id);   
+            if(Item == null)
+            {
+                Item = new Item(); 
+            }
+        }
         public ItemViewModel(Item i) 
         {
             Item = i;
