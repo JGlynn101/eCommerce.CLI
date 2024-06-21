@@ -2,9 +2,12 @@ using AmazonApp.ViewModels;
 
 namespace AmazonApp.Views;
 
+[QueryProperty(nameof(ItemId), "itemId")]
+
 public partial class ItemView : ContentPage
 {
-	public ItemView()
+    public int ItemId { get; set; }
+    public ItemView()
 	{
 		InitializeComponent();
 	}
@@ -23,6 +26,6 @@ public partial class ItemView : ContentPage
 
     private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
     {
-        BindingContext = new ItemViewModel();
+        BindingContext = new ItemViewModel(ItemId);
     }
 }

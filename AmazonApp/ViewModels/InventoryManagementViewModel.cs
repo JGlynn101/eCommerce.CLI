@@ -31,7 +31,11 @@ namespace AmazonApp.ViewModels
         public ItemViewModel Selecteditem { get; set; } 
         public void updateItem()
         {
-            if (Selecteditem.Item == null) return;
+            if (Selecteditem?.Item == null)
+            {
+                return;
+            }
+            Shell.Current.GoToAsync($"//Item?itemId={Selecteditem.Item.Id}");
             InventoryServiceProxy.Current.AddorUpdate(Selecteditem.Item);
         }
         public void RefreshItems()
