@@ -11,9 +11,32 @@
                 <ColumnDefinition/>
 
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+
+            </Grid.RowDefinitions>
             
-            <Label Grid.Column="0" Text="Name" />
-            <Entry Grid.Column="1" Text="{Binding Name}" />
+            
+            <Label Grid.Column="0" Grid.Row="0" Text="Name" />
+            <Entry Grid.Column="1" Grid.Row="0" Text="{Binding Name}" />
+
+            <Label Grid.Column="0" Grid.Row="1" Text="Price" />
+            <Entry Grid.Column="1" Grid.Row="1" Text="{Binding Price}" />
+
+
+            <Label Grid.Column="0" Grid.Row="2" Text="Description" />
+            <Entry Grid.Column="1" Grid.Row="2" Text="{Binding Description}" />
+
+            <Label Grid.Column="0" Grid.Row="3" Text="Quantity" />
+            <Entry Grid.Column="1" Grid.Row="3" Text="{Binding Quantity}" />
+
+            <Label Grid.Column="0" Grid.Row="4" Text="Id" />
+            <Entry Grid.Column="1" Grid.Row="4" Text="{Binding Id}" />
+           
         </Grid>
 
         <Button Text="OK" Clicked="OkClicked" />

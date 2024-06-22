@@ -38,6 +38,16 @@ namespace AmazonApp.ViewModels
             Shell.Current.GoToAsync($"//Item?itemId={Selecteditem.Item.Id}");
             InventoryServiceProxy.Current.AddorUpdate(Selecteditem.Item);
         }
+        public void DeleteItem()
+        {
+            if (Selecteditem?.Item == null)
+            {
+                return;
+            }
+            InventoryServiceProxy.Current.Delete(Selecteditem.Item.Id);
+            RefreshItems();
+
+        }
         public void RefreshItems()
         {
             NotifyPropertyChanged("Items");
