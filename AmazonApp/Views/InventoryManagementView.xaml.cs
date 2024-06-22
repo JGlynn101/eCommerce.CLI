@@ -13,7 +13,10 @@ public partial class InventoryManagementView : ContentPage
     private void EditClicked(object sender, EventArgs e)
     {
         (BindingContext as InventoryManagementViewModel)?.updateItem();
-          
+    }
+    private void DeleteClicked(object sender, EventArgs e)
+    {
+        (BindingContext as InventoryManagementViewModel).DeleteItem();
     }
     private void AddClicked(object sender, EventArgs e)
     {

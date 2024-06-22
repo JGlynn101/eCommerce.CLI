@@ -29,6 +29,62 @@ namespace AmazonApp.ViewModels
                 }
             }
         }
+        public string? Description
+        {
+            get
+            {
+                return Item?.Description ?? string.Empty;
+            }
+            set
+            {
+                if (Item != null)
+                {
+                    Item.Description = value;
+                }
+            }
+        }
+        public decimal Price
+        {
+            get
+            {
+                return Item?.Price ?? 0m;
+            }
+            set
+            {
+                if (Item != null)
+                {
+                    Item.Price = value;
+                }
+            }
+        }
+        public int Quantity
+        {
+            get
+            {
+                return Item?.Quantity ?? 0;
+            }
+            set
+            {
+                if (Item != null)
+                {
+                    Item.Quantity = value;
+                }
+            }
+        }
+        public int Id
+        {
+            get
+            {
+                return Item?.Id ?? 0;
+            }
+            set
+            {
+                if (Item != null)
+                {
+                    Item.Id = value;
+                }
+            }
+        }
         private void ExecuteEdit(ItemViewModel? p)
         {
             if (p?.Item == null)

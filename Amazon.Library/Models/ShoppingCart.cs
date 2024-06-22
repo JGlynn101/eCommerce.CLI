@@ -11,7 +11,5 @@ namespace Amazon.Library.Models
         public int Id { get; set; }
         public List<Item>? Contents { get; set; }
 
-
-
     }
 }

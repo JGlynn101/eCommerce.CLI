@@ -58,7 +58,7 @@ namespace Amazon.Library.Services
         private InventoryServiceProxy()
         {
             items = new List<Item>() {
-                new Item { Id = 0, Name = "Item 1", Price = 10.0m },
+                new Item { Id = 0, Name = "Item 1", Price = 10.0m, Description = "Great Product" , Quantity = 4 },
             new Item { Id = 1, Name = "Item 2", Price = 20.0m },
             new Item { Id = 2, Name = "Item 3", Price = 30.0m }
             };
@@ -79,7 +79,7 @@ namespace Amazon.Library.Services
             }
         }
         public void Delete(int id)
-        {
+         {
             if(items == null)
             {
                 return;

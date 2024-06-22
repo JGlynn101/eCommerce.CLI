@@ -7,46 +7,65 @@
              NavigatedFrom="ContentPage_NavigatedFrom"
              >
     <VerticalStackLayout>
-        <ListView ItemsSource="{Binding Items}" 
-                  SelectedItem="{Binding Selecteditem}"
-            >
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
+        <!-- Header Row -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Text="Name" FontAttributes="Bold" />
+                <Label Grid.Column="1" Text="Price" FontAttributes="Bold" />
+                <Label Grid.Column="2" Text="Id" FontAttributes="Bold" />
+                <Label Grid.Column="3" Text="Quantity" FontAttributes="Bold" />
+                <Label Grid.Column="5" Text="Edit" />
+                <Label Grid.Column="4" Text="Description" FontAttributes="Bold" />
+        </Grid>
+
+            <!-- Data Rows -->
+            <ListView ItemsSource="{Binding Items}" 
+                  SelectedItem="{Binding Selecteditem}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="{Binding Name}" />
-                            <Label Grid.Column="1" Text="{Binding Description}" />
-                            <Label Grid.Column="2" Text="{Binding Price}" />
-                            <Label Grid.Column="3" Text="{Binding  Id}" />
-                            <Label Grid.Column="4" Text="{Binding Quantity}" />
+                                <Label Grid.Column="0" Text="{Binding Name}" />
+                                <Label Grid.Column="1" Text="{Binding Price}" />
+                                <Label Grid.Column="2" Text="{Binding Id}" />
+                                <Label Grid.Column="3" Text="{Binding Quantity}" />
+                                <Label Grid.Column="4" Text="{Binding Description}" />
                             <Button Grid.Column="5" 
-                                Text="Edit"
-                                Command="{Binding Path=EditCommand}"
-                                CommandParameter="{Binding}"
-                            />
-                            <Button Grid.Column="6" Text="Delete"></Button>
-                        </Grid> 
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Button
+                                   Text="Edit"
+                                   Command="{Binding Path=EditCommand}"
+                                   CommandParameter="{Binding}" /> 
+                        </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button
             Text="Add"
             Clicked="AddClicked" />    
         <Button
             Text="Edit"
             Clicked="EditClicked" />
         <Button
+            Text="Delete"
+            Clicked="DeleteClicked" />
+        <Button
             Text="Go Back"
             Clicked="BackClicked" />
+            
     </VerticalStackLayout>
 </ContentPage> 
