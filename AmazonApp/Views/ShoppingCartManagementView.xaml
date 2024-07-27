@@ -2,14 +2,63 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AmazonApp.Views.ShoppingCartManagementView"
-             Title="ShoppingCartManagementView">
-    <VerticalStackLayout>
-        <Label 
-            Text="Shopping Cart!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <Button
-            Text="Go Back"
-            Clicked="BackClicked" />
-    </VerticalStackLayout>
+             x:Name="ShoppingCartManagementPage"
+             Title="ShoppingCartManagementView"
+             NavigatedTo="ContentPage_NavigatedTo"
+             NavigatedFrom="ContentPage_NavigatedFrom">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- First Row: Header Row -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Text="Name" FontAttributes="Bold" />
+            <Label Grid.Column="1" Text="Id" FontAttributes="Bold" />
+            <Label Grid.Column="2" Text="Edit" FontAttributes="Bold" />
+            <Label Grid.Column="3" Text="Delete" FontAttributes="Bold"/>
+        </Grid>
+
+        <!-- Second Row: ListView with Items -->
+        <ListView Grid.Row="1" ItemsSource="{Binding Carts}" 
+                  SelectedItem="{Binding SelectedCart}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="{Binding CartName}" />
+                            <Label Grid.Column="1" Text="{Binding Id}" />
+                            <Button Grid.Column="2" Text="Edit"
+                                    Command="{Binding Path=BindingContext.EditCommand, Source={x:Reference ShoppingCartManagementPage}}"
+                                    CommandParameter="{Binding}" />
+                            <Button Grid.Column="3" Text="Delete"
+                                    Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference ShoppingCartManagementPage}}"
+                                    CommandParameter="{Binding}" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!-- Third Row: Buttons -->
+        <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center">
+            <Button Text="Edit Cart" Clicked="EditCartClicked" />
+            <Button Text="Go Back" Clicked="BackClicked" />
+            <Button Text="Add Cart" Clicked="AddCartClicked" />
+        </StackLayout>
+    </Grid>
 </ContentPage>

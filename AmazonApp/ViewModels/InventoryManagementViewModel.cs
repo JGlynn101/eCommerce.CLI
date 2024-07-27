@@ -24,27 +24,27 @@ namespace AmazonApp.ViewModels
         {
             get
             {
-                return InventoryServiceProxy.Current.Items.Select(i => new ItemViewModel(i)).ToList() ?? new List<ItemViewModel>();
+                return InventoryServiceProxy.Current.Items.Where(i=>i != null).Select(i => new ItemViewModel(i)).ToList() ?? new List<ItemViewModel>();
             } 
                 
         }
         public ItemViewModel Selecteditem { get; set; } 
         public void updateItem()
         {
-            if (Selecteditem?.Item == null)
+            if (Selecteditem?.Model == null)
             {
                 return;
             }
-            Shell.Current.GoToAsync($"//Item?itemId={Selecteditem.Item.Id}");
-            InventoryServiceProxy.Current.AddorUpdate(Selecteditem.Item);
+            Shell.Current.GoToAsync($"//Item?itemId={Selecteditem.Model.Id}");
+            InventoryServiceProxy.Current.AddorUpdate(Selecteditem.Model);
         }
         public void DeleteItem()
         {
-            if (Selecteditem?.Item == null)
+            if (Selecteditem?.Model == null)
             {
                 return;
             }
-            InventoryServiceProxy.Current.Delete(Selecteditem.Item.Id);
+            InventoryServiceProxy.Current.Delete(Selecteditem.Model.Id);
             RefreshItems();
 
         }

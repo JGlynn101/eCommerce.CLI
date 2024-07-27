@@ -16,11 +16,11 @@ namespace Amazon.Library.Services
         private static object instanceLock = new object();
 
         private List<Item> items;
-        public ReadOnlyCollection<Item> Items 
+        public List<Item> Items 
         {
             get
             {
-                return items.AsReadOnly();
+                return items;
             }
         }
 
@@ -47,9 +47,14 @@ namespace Amazon.Library.Services
                 isAdd = true;
                 i.Id = NextId;
             }
-            if (isAdd) 
+            if(isAdd) 
             {
                 items.Add(i);
+            }
+            if (!isAdd)
+            {
+                var item_toUpdate = items.FirstOrDefault(item  => item.Id == i.Id);
+                item_toUpdate = i;
             }
               
                 return i;
@@ -58,9 +63,9 @@ namespace Amazon.Library.Services
         private InventoryServiceProxy()
         {
             items = new List<Item>() {
-                new Item { Id = 0, Name = "Item 1", Price = 10.0m, Description = "Great Product" , Quantity = 4 },
-            new Item { Id = 1, Name = "Item 2", Price = 20.0m },
-            new Item { Id = 2, Name = "Item 3", Price = 30.0m }
+                new Item { Id = 1, Name = "Item 1", Price = 10.0m, Description = "Great Product" , Quantity = 40 },
+            new Item { Id = 2, Name = "Item 2", Price = 20.0m, Quantity = 12},
+            new Item { Id = 3, Name = "Item 3", Price = 30.0m , Quantity = 23}
             };
         }
         public static InventoryServiceProxy Current
@@ -75,7 +80,6 @@ namespace Amazon.Library.Services
                     }
                 } 
                 return instance;
-
             }
         }
         public void Delete(int id)

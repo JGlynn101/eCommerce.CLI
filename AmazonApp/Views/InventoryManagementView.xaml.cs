@@ -5,11 +5,11 @@ namespace AmazonApp.Views;
 
 public partial class InventoryManagementView : ContentPage
 {
-	public InventoryManagementView() 
-	{
+    public InventoryManagementView()
+    {
         InitializeComponent();
         BindingContext = new InventoryManagementViewModel();
-	}
+    }
     private void EditClicked(object sender, EventArgs e)
     {
         (BindingContext as InventoryManagementViewModel)?.updateItem();
@@ -26,7 +26,10 @@ public partial class InventoryManagementView : ContentPage
     {
         Shell.Current.GoToAsync("//MainPage");
     }
-
+    private void PurchaseClicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync("//MainPage");
+    }
     private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
     {
         (BindingContext as InventoryManagementViewModel).RefreshItems();

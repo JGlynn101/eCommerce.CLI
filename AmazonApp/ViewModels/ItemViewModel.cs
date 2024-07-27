@@ -13,19 +13,26 @@ namespace AmazonApp.ViewModels
     {
         public ICommand? EditCommand { get; private set; }
 
-        public Item? Item;
-         
+        public Item? Model;
+        public override string ToString()
+        {
+            if (Model == null)
+            {
+                return string.Empty;
+            }
+            return $"[{Model.Id}] {Model.Name} - {Model.Price:C}";
+        }
         public string? Name
         {
             get
             {
-                return Item?.Name ?? string.Empty; 
+                return Model?.Name ?? string.Empty; 
             }
             set
             {
-                if(Item != null)
+                if(Model != null)
                 {
-                    Item.Name  = value;
+                    Model.Name  = value;
                 }
             }
         }
@@ -33,13 +40,13 @@ namespace AmazonApp.ViewModels
         {
             get
             {
-                return Item?.Description ?? string.Empty;
+                return Model?.Description ?? string.Empty;
             }
             set
             {
-                if (Item != null)
+                if (Model != null)
                 {
-                    Item.Description = value;
+                    Model.Description = value;
                 }
             }
         }
@@ -47,13 +54,13 @@ namespace AmazonApp.ViewModels
         {
             get
             {
-                return Item?.Price ?? 0m;
+                return Model?.Price ?? 0m;
             }
             set
             {
-                if (Item != null)
+                if (Model != null)
                 {
-                    Item.Price = value;
+                    Model.Price = value;
                 }
             }
         }
@@ -61,13 +68,13 @@ namespace AmazonApp.ViewModels
         {
             get
             {
-                return Item?.Quantity ?? 0;
+                return Model?.Quantity ?? 0;
             }
             set
             {
-                if (Item != null)
+                if (Model != null)
                 {
-                    Item.Quantity = value;
+                    Model.Quantity = value;
                 }
             }
         }
@@ -75,28 +82,57 @@ namespace AmazonApp.ViewModels
         {
             get
             {
-                return Item?.Id ?? 0;
+                return Model?.Id ?? 0;
             }
             set
             {
-                if (Item != null)
+                if (Model != null)
                 {
-                    Item.Id = value;
+                    Model.Id = value;
                 }
             }
         }
+        public decimal Discount
+        {
+            get
+            {
+                return Model?.Discount ?? 0;
+            }
+            set
+            {
+                if (Model != null && Model.Discount != value)
+                {
+                    Model.Discount = value;
+                }
+            }
+        }
+        public bool BOGO
+        {
+            get
+            {
+                return Model?.BOGO ?? false;
+            }
+            set
+            {
+                if (Model != null && Model.BOGO != value)
+                {
+                    Model.BOGO = value;
+                }
+            }
+        }
+
         private void ExecuteEdit(ItemViewModel? p)
         {
-            if (p?.Item == null)
+            if (p?.Model == null)
             {
                 return;
             }
-            Shell.Current.GoToAsync($"//Item?itemId={p.Item.Id}");
+            Shell.Current.GoToAsync($"//Item?itemId={p.Model.Id}");
 
         }
         public void Add()
         {
-            InventoryServiceProxy.Current.AddorUpdate(Item);
+            InventoryServiceProxy.Current.AddorUpdate(Model);
         }
         public void SetupCommands()
         {
@@ -105,20 +141,27 @@ namespace AmazonApp.ViewModels
 
         public ItemViewModel()
         {
-            Item = new Item();
+            Model = new Item();
             SetupCommands();
         }
         public ItemViewModel(int id)
         {
-            Item = InventoryServiceProxy.Current.Items.FirstOrDefault(i=> i.Id == id);   
-            if(Item == null)
-            {
-                Item = new Item(); 
+            Model = InventoryServiceProxy.Current.Items.FirstOrDefault(i=> i.Id == id);   
+            if(Model == null)
+            {   
+                Model = new Item(); 
             }
         }
-        public ItemViewModel(Item i) 
+        public ItemViewModel(Item? i) 
         {
-            Item = i;
+            if(i != null)
+            {
+                Model = i;
+            }
+            else
+            {
+                Model = new Item();
+            }
             SetupCommands();
         }
         public string? Display

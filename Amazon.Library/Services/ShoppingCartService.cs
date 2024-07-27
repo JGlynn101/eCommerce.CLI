@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Amazon.Library.Models;
 
 namespace Amazon.Library.Services
@@ -11,24 +8,24 @@ namespace Amazon.Library.Services
     public class ShoppingCartService
     {
         private static ShoppingCartService? instance;
+        private static readonly object instanceLock = new object();
+        private readonly List<ShoppingCart> _carts;
 
-        private static object instanceLock = new object();
-
-        public ReadOnlyCollection<ShoppingCart> carts;
-        
-         public ShoppingCart Cart
+        public ReadOnlyCollection<ShoppingCart> Carts
         {
             get
             {
-                if(carts == null || !carts.Any())
-                {
-                    return new ShoppingCart();
-                }
-                return carts?.FirstOrDefault() ?? new ShoppingCart();
+                return _carts.AsReadOnly();
             }
         }
 
-        private ShoppingCartService() { }
+        private ShoppingCartService()
+        {
+            _carts = new List<ShoppingCart>
+            {
+                new ShoppingCart { Id = 1 , Name = "Shopping Cart" }
+            };
+        }
 
         public static ShoppingCartService Current
         {
@@ -45,58 +42,113 @@ namespace Amazon.Library.Services
             }
         }
 
-        public ShoppingCart AddorUpdate(ShoppingCart c)
+        public ShoppingCart GetCart(int cartId)
         {
-            if (carts == null)
-            {
-                carts = new ReadOnlyCollection<ShoppingCart>(new List<ShoppingCart> { c });
-                return c;
-            }
-
-            var existingCart = carts.FirstOrDefault(cart => cart.Id == c.Id);
-
-            if (existingCart != null)
-            {
-                // Update existing cart properties
-                existingCart.Id = c.Id;
-                existingCart.Contents = c.Contents;
-                // Update other properties as necessary
-            }
-            else
-            {
-                // Add new cart
-                var cartList = carts.ToList();
-                cartList.Add(c);
-                carts = new ReadOnlyCollection<ShoppingCart>(cartList);
-            }
-
-            return c;
+            return _carts.FirstOrDefault(cart => cart.Id == cartId) ?? new ShoppingCart { Id = cartId };
         }
-        public void AddToCart(Item newItem)
+        private int NextId
         {
-            if(Cart == null || Cart.Contents == null)
+            get
             {
-                return;
+                if (!_carts.Any())
+                {
+                    return 1;
+                }
+                return _carts.Select(c => c.Id).Max() + 1;
             }
-            var existingItem = Cart?.Contents?.FirstOrDefault(existingItem => existingItem.Id == newItem.Id);
-            var inventoryItem = InventoryServiceProxy.Current.Items.FirstOrDefault(invItem => invItem.Id == newItem.Id);
-            if(inventoryItem == null)
+        }
+        public ShoppingCart? AddOrUpdateCart(ShoppingCart cart)
+        {
+            if (_carts == null || cart == null)
             {
-                return;
+                return null;
             }
-            inventoryItem.Quantity -= newItem.Quantity;
-            if (existingItem != null) 
+            bool isAdd = false;
+            if (cart.Id == 0)
             {
-                // update
-                existingItem.Quantity += newItem.Quantity;
+                isAdd = true;
+                cart.Id = NextId;
+            }
+            if (isAdd)
+            {
+                _carts.Add(cart);
             }
             else
             {
-                //add
-                Cart.Contents.Add(newItem);
+                var cartToUpdate = _carts.FirstOrDefault(c => c.Id == cart.Id);
+                if (cartToUpdate != null)
+                {
+                    cartToUpdate.Name = cart.Name;
+                    cartToUpdate.Contents = cart.Contents;
+                }
+            }
+            return cart;
+        }
+
+        public ShoppingCart FindCart(int cartId)
+        {
+            return _carts.FirstOrDefault(c => c.Id == cartId);
+        }
+
+        public void AddToCart(int cartId, Item newItem)
+        {
+            var cart = GetCart(cartId);
+            var existingItem = cart?.Contents?.FirstOrDefault(item => item.Id == newItem.Id);
+            var inventoryItem = InventoryServiceProxy.Current.Items.FirstOrDefault(invItem => invItem.Id == newItem.Id);
+            if (inventoryItem == null)
+            {
+                return;
+            }
+            if(newItem.BOGO)
+            {
+                newItem.Quantity *= 2;
+            }
+            if (inventoryItem.Quantity <= newItem.Quantity)
+            {
+                newItem.Quantity = inventoryItem.Quantity;
+            }
+            if (existingItem != null)
+            {
+                if (inventoryItem.Quantity > (newItem.Quantity + existingItem.Quantity)) 
+                { 
+                    existingItem.Quantity += newItem.Quantity; 
+                }
+                else
+                    existingItem.Quantity = inventoryItem.Quantity;
+            }
+            else
+            {
+                cart?.Contents?.Add(newItem);
+            }
+
+            AddOrUpdateCart(cart);
+        }
+        public void RemoveItemFromCart(int cartId, Item i)
+        {
+            var cart = GetCart(cartId);
+            var existingItem = cart?.Contents?.FirstOrDefault(item => item.Id == i.Id);
+            var inventoryItem = InventoryServiceProxy.Current.Items.FirstOrDefault(invItem => invItem.Id == i.Id);
+            if (i == null)
+            {
+                return;
+            }
+
+        }
+        public void RemoveCart(ShoppingCart cart)
+        {
+            if (_carts.Contains(cart))
+            {
+                _carts.Remove(cart);
+            }
+        }
+        public void UpdateTaxRate(int cartId, decimal newRate)
+        {
+            var cart = GetCart(cartId);
+            if (cart != null)
+            {
+                cart.TaxRate = newRate;
+                AddOrUpdateCart(cart);
             }
         }
     }
-
-
 }

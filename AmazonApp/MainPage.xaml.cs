@@ -18,7 +18,7 @@ namespace AmazonApp
 
         private void EmployeeClicked(object sender, EventArgs e)
         {
-            Shell.Current.GoToAsync("//Inventory");
+            Shell.Current.GoToAsync("//InventoryManagement");
         } 
 
 

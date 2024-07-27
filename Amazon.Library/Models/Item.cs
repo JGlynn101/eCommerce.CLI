@@ -13,8 +13,9 @@ namespace Amazon.Library.Models
         public string? Description { get; set; } 
         public decimal Price { get; set; }
         public int Id { get; set; }
-
         public int Quantity { get; set; }
+        public bool BOGO { get; set; }
+        public decimal Discount { get; set; }
 
         public override string ToString()
         {

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AmazonApp.Views.ShoppingCartView"
+             x:Name="ShoppingCartPage"
+             Title="ShoppingCartView"
+             NavigatedFrom="ContentPage_NavigatedFrom"
+             NavigatedTo="ContentPage_NavigatedTo">
+    <VerticalStackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <!-- Shopping Cart Name -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Text="Shopping Cart Name" />
+                <Entry Grid.Column="1" Text="{Binding CartName, Mode=TwoWay}" />
+                <Button Grid.Column="2" Text="Save" Clicked="SaveClicked" />
+            </Grid>
+            
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="200" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Text="Item Name" />
+                <Label Grid.Column="1" Text="Item Price" />
+                <Label Grid.Column="2" Text="Cart Quantity" />
+                <Label Grid.Column="3" Text="Quantity to Remove" />
+            </Grid>
+            <!-- Shopping Cart Items -->
+            <Label Grid.Row="1" Text=" Shopping Cart Items List" FontAttributes="Bold" />
+            <ListView Grid.Row="3" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text="{Binding Name}" />
+                                <Label Grid.Column="1" Text="{Binding Price}" />
+                                <Label Grid.Column="2" Text="{Binding Quantity}" />
+                                <Entry Grid.Column="3" Placeholder="Quantity to Remove" Text="{Binding Path=BindingContext.SelectedQuantitytoDelete, Source={x:Reference ShoppingCartPage}}" Keyboard="Numeric" />
+                                <Button Grid.Column="4" Text="Remove" 
+                                        Command="{Binding Path=BindingContext.RemoveCommand , Source={x:Reference ShoppingCartPage}}" 
+                                        CommandParameter="{Binding}" />
+                                <Button Grid.Column="5" Text="Delete" 
+                                        Command="{Binding Path=BindingContext.DeleteCommand , Source={x:Reference ShoppingCartPage}}" 
+                                        CommandParameter="{Binding}" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Grid Grid.Row="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="200" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Text="Item Name" />
+                <Label Grid.Column="1" Text="Item Price" />
+                <Label Grid.Column="2" Text="Inventory Quantity" />
+            </Grid>
+            <!-- Inventory Items to Add -->
+            <Label Grid.Row="4" Text=" Inventory Items List" FontAttributes="Bold" />
+            <ListView Grid.Row="6" ItemsSource="{Binding InventoryItems}" SelectedItem="{Binding SelectedInventoryItem}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text="{Binding Name}" />
+                                <Label Grid.Column="1" Text="{Binding Price}" />
+                                <Label Grid.Column="2" Text="{Binding Quantity}" />
+                                <Entry Grid.Column="3" Placeholder="Quantity to purchase" Text="{Binding Path=BindingContext.SelectedQuantity, Source={x:Reference ShoppingCartPage}}" Keyboard="Numeric" />
+                                <Button Grid.Column="4" Text="Add to Cart" Command="{Binding Path=BindingContext.AddCommand, Source={x:Reference ShoppingCartPage}}" CommandParameter="{Binding}" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!-- Bottom Buttons -->
+            <StackLayout Grid.Row="7" Orientation="Horizontal" HorizontalOptions="Center">
+                <Button Text="Go Back" Clicked="BackClicked" />
+                <Button Text="Update Tax Rate" Clicked="UpdateTaxRateClicked" />
+            </StackLayout>
+            <Grid Grid.Row="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Text="Shopping cart Total" />
+                <Label Grid.Row="1" Text="{Binding total}" />
+                <Button Grid.Row="2" Text="Checkout" Command="{Binding CheckoutCommand}" />
+            </Grid>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

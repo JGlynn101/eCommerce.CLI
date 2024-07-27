@@ -17,6 +17,8 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
 
             </Grid.RowDefinitions>
             
@@ -36,7 +38,13 @@
 
             <Label Grid.Column="0" Grid.Row="4" Text="Id" />
             <Entry Grid.Column="1" Grid.Row="4" Text="{Binding Id}" />
-           
+            
+            <Label Grid.Column="0" Grid.Row="5" Text="Discount Rate" />
+            <Entry Grid.Column="1" Grid.Row="5" Text="{Binding Discount}" />
+            
+            <Label Grid.Column="0" Grid.Row="6" Text="BOGO" />
+            <Entry Grid.Column="1" Grid.Row="6" Text="{Binding BOGO}" />
+
         </Grid>
 
         <Button Text="OK" Clicked="OkClicked" />

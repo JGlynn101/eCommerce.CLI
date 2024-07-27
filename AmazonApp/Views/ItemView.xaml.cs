@@ -15,12 +15,12 @@ public partial class ItemView : ContentPage
     private void OkClicked(object sender, EventArgs e)
     {
         (BindingContext as ItemViewModel).Add(); 
-        Shell.Current.GoToAsync("//Inventory");
+        Shell.Current.GoToAsync("//InventoryManagement");
     }
 
     private void CancelClicked(object sender, EventArgs e)
     {
-        Shell.Current.GoToAsync("//Inventory");
+        Shell.Current.GoToAsync("//InventoryManagement");
 
     }
 
