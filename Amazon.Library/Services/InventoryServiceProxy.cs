@@ -7,6 +7,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Amazon.Library.Models;
+using Amazon.Library.Utilities;
+using Newtonsoft.Json;
 
 namespace Amazon.Library.Services
 {
@@ -61,12 +63,10 @@ namespace Amazon.Library.Services
         }
 
         private InventoryServiceProxy()
-        {
-            items = new List<Item>() {
-                new Item { Id = 1, Name = "Item 1", Price = 10.0m, Description = "Great Product" , Quantity = 40 },
-            new Item { Id = 2, Name = "Item 2", Price = 20.0m, Quantity = 12},
-            new Item { Id = 3, Name = "Item 3", Price = 30.0m , Quantity = 23}
-            };
+        { 
+            // Make a web call
+            var response = new WebRequestHandler().Get("/Inventory").Result;
+            items = JsonConvert.DeserializeObject<List<Item>>(response);
         }
         public static InventoryServiceProxy Current
         {
