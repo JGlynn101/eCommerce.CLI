@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Amazon.Library.Models;
+using Amazon.Library.DTO;
 using Amazon.Library.Services;
 
 
@@ -15,7 +16,7 @@ namespace AmazonApp.ViewModels
     {
 
         public event PropertyChangedEventHandler? PropertyChanged;
-
+        public string? Query { get; set; }   
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -38,19 +39,20 @@ namespace AmazonApp.ViewModels
             Shell.Current.GoToAsync($"//Item?itemId={Selecteditem.Model.Id}");
             InventoryServiceProxy.Current.AddorUpdate(Selecteditem.Model);
         }
-        public void DeleteItem()
+        public async void DeleteItem()
         {
-            if (Selecteditem?.Model == null)
-            {
-                return;
-            }
-            InventoryServiceProxy.Current.Delete(Selecteditem.Model.Id);
-            RefreshItems();
-
+            await InventoryServiceProxy.Current.Delete(Selecteditem.Model?.Id ?? 0);
+            Refresh();
         }
-        public void RefreshItems()
+        public async void Search()
         {
-            NotifyPropertyChanged("Items");
+            await InventoryServiceProxy.Current.Search(new Query(Query));
+            Refresh();
+        }
+        public async void Refresh()
+        {
+            await InventoryServiceProxy.Current.Search(new Query(Query));
+            NotifyPropertyChanged(nameof(Items));
         }
         public InventoryManagementViewModel() { 
         } 

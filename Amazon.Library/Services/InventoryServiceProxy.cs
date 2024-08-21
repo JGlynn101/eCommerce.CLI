@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Amazon.Library.Models;
 using Amazon.Library.Utilities;
+using Amazon.Library.DTO;
 using Newtonsoft.Json;
 
 namespace Amazon.Library.Services
@@ -17,13 +18,20 @@ namespace Amazon.Library.Services
         private static InventoryServiceProxy? instance;
         private static object instanceLock = new object();
 
-        private List<Item> items;
-        public List<Item> Items 
+        private List<ItemDTO> items;
+        public List<ItemDTO> Items 
         {
             get
             {
                 return items;
             }
+        }
+        public async Task<IEnumerable<ItemDTO>> Get()
+        {
+            var result = await new WebRequestHandler().Get("/Inventory");
+            var deserializedResult = JsonConvert.DeserializeObject<List<ItemDTO>>(result);
+            items = deserializedResult.ToList() ?? new List<ItemDTO>();
+            return items;
         }
 
         private int NextId
@@ -37,36 +45,40 @@ namespace Amazon.Library.Services
                 return items.Select(i => i.Id).Max() + 1;
             }
         }
-        public Item? AddorUpdate(Item? i)
+        public async Task<IEnumerable<ItemDTO>> Search(Query? query)
         {
-            if (items == null)
+            if (query == null || string.IsNullOrEmpty(query.QueryString))
             {
-                return null;
+                return await Get();
             }
-            bool isAdd = false;
-            if(i.Id == 0)
-            {
-                isAdd = true;
-                i.Id = NextId;
-            }
-            if(isAdd) 
-            {
-                items.Add(i);
-            }
-            if (!isAdd)
-            {
-                var item_toUpdate = items.FirstOrDefault(item  => item.Id == i.Id);
-                item_toUpdate = i;
-            }
-              
-                return i;
-        }
+            var result = await new WebRequestHandler().Post("/Inventory/Search", query);
+            items = JsonConvert.DeserializeObject<List<ItemDTO>>(result) ?? new List<ItemDTO>();
+            return Items;
 
+        }
+        public async Task<ItemDTO> AddorUpdate(ItemDTO i)
+        {
+            var result = await new WebRequestHandler().Post("/Inventory", i);
+            return JsonConvert.DeserializeObject<ItemDTO>(result);
+        }
+        public async Task<ItemDTO?> Delete(int id)
+        {
+            var response = await new WebRequestHandler().Delete($"/{id}");
+            var itemToDelete = JsonConvert.DeserializeObject<ItemDTO>(response);
+            return itemToDelete;
+            //var itemToDelete = items.FirstOrDefault(i => i.Id == id);
+            //if (itemToDelete == null)
+            //{
+            //    return null;
+            //}
+            //items.Remove(itemToDelete);
+            //return itemToDelete;
+        }
         private InventoryServiceProxy()
         { 
             // Make a web call
             var response = new WebRequestHandler().Get("/Inventory").Result;
-            items = JsonConvert.DeserializeObject<List<Item>>(response);
+            items = JsonConvert.DeserializeObject<List<ItemDTO>>(response);
         }
         public static InventoryServiceProxy Current
         {
@@ -80,18 +92,6 @@ namespace Amazon.Library.Services
                     }
                 } 
                 return instance;
-            }
-        }
-        public void Delete(int id)
-         {
-            if(items == null)
-            {
-                return;
-            }
-            var itemToDelete = items.FirstOrDefault(i => i.Id == id);
-            if (itemToDelete != null)
-            {
-                items.Remove(itemToDelete);
             }
         }
     }

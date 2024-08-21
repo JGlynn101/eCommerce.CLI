@@ -9,6 +9,7 @@ using Amazon.Library.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
+using Amazon.Library.DTO;
 
 namespace AmazonApp.ViewModels
 {
@@ -67,7 +68,7 @@ namespace AmazonApp.ViewModels
         public ObservableCollection<ItemViewModel> Items
         {
             get => new ObservableCollection<ItemViewModel>(Cart?.Contents?.Select(i => new ItemViewModel(i)) ?? new ObservableCollection<ItemViewModel>());
-        }
+        } 
         public List<ItemViewModel> InventoryItems
         {
             get
@@ -200,7 +201,7 @@ namespace AmazonApp.ViewModels
         {
             if (SelectedInventoryItem != null && SelectedQuantity > 0)
             {
-                ShoppingCartService.Current.AddToCart(Cart.Id, new Item
+                ShoppingCartService.Current.AddToCart(Cart.Id, new ItemDTO
                 {
                     Id = SelectedInventoryItem.Model.Id,
                     Name = SelectedInventoryItem.Model.Name,

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Amazon.Library.DTO;
 using Amazon.Library.Models;
 using Amazon.Library.Services;
 
@@ -13,7 +14,7 @@ namespace AmazonApp.ViewModels
     {
         public ICommand? EditCommand { get; private set; }
 
-        public Item? Model;
+        public ItemDTO? Model;
         public override string ToString()
         {
             if (Model == null)
@@ -130,9 +131,13 @@ namespace AmazonApp.ViewModels
             Shell.Current.GoToAsync($"//Item?itemId={p.Model.Id}");
 
         }
-        public void Add()
+        public async void Add()
         {
-            InventoryServiceProxy.Current.AddorUpdate(Model);
+            if (Model != null) 
+            { 
+                Model = await InventoryServiceProxy.Current.AddorUpdate(Model); 
+            }
+            
         }
         public void SetupCommands()
         {
@@ -141,7 +146,7 @@ namespace AmazonApp.ViewModels
 
         public ItemViewModel()
         {
-            Model = new Item();
+            Model = new ItemDTO();
             SetupCommands();
         }
         public ItemViewModel(int id)
@@ -149,10 +154,10 @@ namespace AmazonApp.ViewModels
             Model = InventoryServiceProxy.Current.Items.FirstOrDefault(i=> i.Id == id);   
             if(Model == null)
             {   
-                Model = new Item(); 
+                Model = new ItemDTO(); 
             }
         }
-        public ItemViewModel(Item? i) 
+        public ItemViewModel(ItemDTO? i) 
         {
             if(i != null)
             {
@@ -160,7 +165,7 @@ namespace AmazonApp.ViewModels
             }
             else
             {
-                Model = new Item();
+                Model = new ItemDTO();
             }
             SetupCommands();
         }

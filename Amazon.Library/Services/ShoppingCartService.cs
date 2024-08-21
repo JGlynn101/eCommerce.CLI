@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Amazon.Library.DTO;
 using Amazon.Library.Models;
 
 namespace Amazon.Library.Services
@@ -90,7 +91,7 @@ namespace Amazon.Library.Services
             return _carts.FirstOrDefault(c => c.Id == cartId);
         }
 
-        public void AddToCart(int cartId, Item newItem)
+        public void AddToCart(int cartId, ItemDTO newItem)
         {
             var cart = GetCart(cartId);
             var existingItem = cart?.Contents?.FirstOrDefault(item => item.Id == newItem.Id);
@@ -123,7 +124,7 @@ namespace Amazon.Library.Services
 
             AddOrUpdateCart(cart);
         }
-        public void RemoveItemFromCart(int cartId, Item i)
+        public void RemoveItemFromCart(int cartId, ItemDTO i)
         {
             var cart = GetCart(cartId);
             var existingItem = cart?.Contents?.FirstOrDefault(item => item.Id == i.Id);
