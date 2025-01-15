@@ -30,26 +30,25 @@ This project is a C# .NET API for an eCommerce platform, designed to handle basi
 
 ## Filebase Storage Details
 The `Filebase` class provides a simple and effective way to persist application state:
-- All `ToDos` are saved in `C:\temp\ToDos` as JSON files.
-- All `Appointments` are saved in `C:\temp\Appointments` as JSON files.
+- All `Items` are saved in `C:\temp\Items` as JSON files
 - Each item is uniquely identified by a `GUID`.
 
 ## API Endpoints
-### ToDo Operations
+### Item Operations
 - **Add or Update ToDo**
 - Automatically assigns an ID if none exists.
-- **Get All ToDos**
-- Retrieves a list of all `ToDos`.
-- **Delete ToDo**
-- Deletes a specified `ToDo` by ID.
+- **Get All Items**
+- Retrieves a list of all `Items`.
+- **Delete Item**
+- Deletes a specified `Item` by ID.
 
 ### Appointment Operations
-- **Add or Update Appointment**
+- **Add or Update Cart**
 - Automatically assigns an ID if none exists.
-- **Get All Appointments**
-- Retrieves a list of all `Appointments`.
-- **Delete Appointment**
-- Deletes a specified `Appointment` by ID.
+- **Get All Cart Items**
+- Retrieves a list of all `Items`.
+- **Delete Cart Items**
+- Deletes a specified `Item` by ID.
 
 ## Project Structure
 ## Customization
@@ -60,7 +59,7 @@ You can modify the `Filebase.cs` file to:
 ## How to Use
 1. Download the repository and open it in Visual Studio.
 2. Run the project and use your preferred API testing tool (e.g., Postman, curl) to interact with the endpoints.
-3. Add, retrieve, and manage `ToDos` and `Appointments`. The data will persist in the `C:\temp` directory even after the application stops.
+3. Add, retrieve, and manage `Products` and `Items`. The data will persist in the `C:\temp` directory even after the application stops.
 
 ## Dependencies
 - [Newtonsoft.Json](https://www.newtonsoft.com/json): For JSON serialization and deserialization.
