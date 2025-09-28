@@ -1,10 +1,10 @@
 # eCommerce API Project
 
 ## Description
-This project is a C# .NET API for an eCommerce platform, designed to handle basic operations like managing items (ToDos and Appointments) and storing them persistently using a file-based storage system (`Filebase.cs`). The application uses `Newtonsoft.Json` to serialize and deserialize data, ensuring that the state of the application is maintained even when the project is stopped and restarted.
+This project is a C# .NET API for an eCommerce platform, designed to handle basic operations like managing Inventory Items and storing them persistently using a file-based storage system (`Filebase.cs`). The application uses `Newtonsoft.Json` to serialize and deserialize data, ensuring that the state of the application is maintained even when the project is stopped and restarted.
 
 ## Features
-- **CRUD Operations** for managing `ToDos` and `Appointments`.
+- **CRUD Operations** for managing Inventory `Items`.
 - Persistent storage via `Filebase`, saving data to a local directory (`C:\temp`) in JSON format.
 - Lightweight and easy to set up—ideal for learning and small-scale applications.
 
@@ -35,7 +35,7 @@ The `Filebase` class provides a simple and effective way to persist application 
 
 ## API Endpoints
 ### Item Operations
-- **Add or Update ToDo**
+- **Add or Update Item**
 - Automatically assigns an ID if none exists.
 - **Get All Items**
 - Retrieves a list of all `Items`.
